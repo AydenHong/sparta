@@ -51,13 +51,46 @@
     .margin1{
       margin-bottom: 10px;
     }
- 
  </style>
 
- <!-- JS -->   
+ <!-- JS --> 
+ <script type="text/javascript">
+    function checking_num(num) {
+
+      var regExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+
+      return regExp.test(num);
+    }
+
+    function order_process() {
+
+      let orderer = $('#orderer').val();
+      let quantity = $('#quantity').val();
+      let address = $('#address').val();
+      let phone = $('#phone_number').val();
+
+      if (orderer == "") {
+        alert("이름을 입력해주세요")
+        $('#orderer').focus();
+      } else if (quantity == "수량을 선택하세요") {
+        alert("정확하게 수량을 선택해주세요")
+        $('#quantity').focus();
+      } else if (address == "") {
+        alert("주소를 입력하세요")
+        $('#address').focus();
+      } else if (phone == "") {
+        alert("전화번호를 입력하세요");
+        $('#phone_number').focus();
+      } else if (!checking_num(phone)) {
+        alert("휴대폰번호 형식에 맞춰 입력해주세요. e.g. 010-1234-5678");
+      }
+    }
+ </script>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 
+
 </head>
 <body>
   <div class="wrap">
@@ -74,13 +107,13 @@
     <div class="input-group-prepend">
       <span class="input-group-text" id="basic-addon1">주문자 이름</span>
     </div>
-    <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+    <input id="orderer" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
   </div>
   <div class="input-group mb-3">
     <div class="input-group-prepend">
       <label class="input-group-text" for="inputGroupSelect01">수량</label>
     </div>
-    <select class="custom-select" id="inputGroupSelect01">
+    <select id="quantity" class="custom-select" id="inputGroupSelect01">
       <option selected>수량을 선택하세요</option>
       <option value="1">1</option>
       <option value="2">2</option>
@@ -91,18 +124,17 @@
     <div class="input-group-prepend">
       <span class="input-group-text" id="basic-addon1">주소</span>
     </div>
-    <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+    <input id="address" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
   </div>
   <div class="input-group mb-3">
     <div class="input-group-prepend">
       <span class="input-group-text" id="basic-addon1">전화번호</span>
     </div>
-    <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1" placeholder="-를 생략해서 입력해주세요. 예) 01012345678">
+    <input id="phone_number" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1" placeholder="-와 함께 입력해주세요. 예) 010-1234-5678">
   </div>
   <div align="center">
-  <button type="button" class="btn btn-primary">주문하기!</button>
+  <button onclick="order_process()" type="button" class="btn btn-primary">주문하기!</button>
 </div>
-
     </div>
   </div>
 </div>
