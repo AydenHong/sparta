@@ -51,10 +51,17 @@
     .margin1{
       margin-bottom: 10px;
     }
- </style>
+  </style>
 
- <!-- JS --> 
- <script type="text/javascript">
+  <!-- JS --> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      listing();
+    });
+
     function checking_num(num) {
 
       var regExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
@@ -85,11 +92,35 @@
         alert("휴대폰번호 형식에 맞춰 입력해주세요. e.g. 010-1234-5678");
       }
     }
- </script>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
- 
+
+    $.ajax({
+      type: "GET",
+      url: "http://spartacodingclub.shop/order",
+      data: {},
+      success: function(response){
+        let order = response["orders"];
+        for (let i = 0; i < order.length; i++) {
+          let name = order[i]['name'];
+          let quantity = order[i]['quantity'];
+          let address = order[i]['address'];
+          let phone = order[i]['phone'];
+
+          blank = `<tr class="text_color">
+          <td>${name}</td>
+          <td>${quantity}</td>
+          <td>${address}</td>
+          <td>${phone}</td>
+          </tr>`;
+
+          $('#list-box').append(blank);
+
+        }
+      }
+    })
+
+
+  </script>
+
 
 </head>
 <body>
@@ -132,11 +163,28 @@
     </div>
     <input id="phone_number" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1" placeholder="-와 함께 입력해주세요. 예) 010-1234-5678">
   </div>
-  <div align="center">
-  <button onclick="order()" type="button" class="btn btn-primary">주문하기!</button>
-</div>
-    </div>
+
+  <div class="margin1" align="center">
+    <button onclick="order()" type="button" class="btn btn-primary">주문하기!</button>
+  </div>
+
+
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">이름</th>
+          <th scope="col">수량</th>
+          <th scope="col">주소</th>
+          <th scope="col">전화번호</th>
+        </tr>
+      </thead>
+      <tbody id="list-box">
+
+      </tbody>
+    </table>
   </div>
 </div>
+
 </body>
 </html>
