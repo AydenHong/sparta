@@ -1,0 +1,36 @@
+    .wrap {
+      width: 500px;
+      margin: auto;
+      align-items: center;
+    }
+    * {
+      font-family: 'Stylish', sans-serif;
+    }
+    .font1 {
+      font-size: 30px;
+    }
+    .form-post {
+      max-width: 500px;
+      border: dashed;
+      border-radius: 3px;
+      border-color: #66CC99;
+      padding: 30px;
+      margin: 20px auto;
+      display: block;
+    }
+    .picture {
+      text-align: center;
+      background-image: url('https://coinnewstelegraph.com/wp-content/uploads/2018/10/blackberry-to-launch-blockchain-for-medical-data-sharing.jpg');
+      background-size: cover;
+      background-position: center;
+      width: 500px;
+      height: 300px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .horizontal {
+      flex-direction: row;
+    }
+    .margin1{
+      margin-bottom: 10px;
+    }

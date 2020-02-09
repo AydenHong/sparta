@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <!-- Webpage Title -->
+  <title>휴대폰 판매</title>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+
+  <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
+
+  <!-- JS --> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      listing();
+    });
+
+    function checking_num(num) {
+
+      var regExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+
+      return regExp.test(num);
+    }
+
+    function order() {
+
+      let orderer = $('#orderer').val();
+      let quantity = $('#quantity').val();
+      let address = $('#address').val();
+      let phone = $('#phone_number').val();
+
+      if (orderer == "") {
+        alert("이름을 입력해주세요")
+        $('#orderer').focus();
+      } else if (quantity == "수량을 선택하세요") {
+        alert("정확하게 수량을 선택해주세요")
+        $('#quantity').focus();
+      } else if (address == "") {
+        alert("주소를 입력하세요")
+        $('#address').focus();
+      } else if (phone == "") {
+        alert("전화번호를 입력하세요");
+        $('#phone_number').focus();
+      } else if (!checking_num(phone)) {
+        alert("휴대폰번호 형식에 맞춰 입력해주세요. e.g. 010-1234-5678");
+      }
+    }
+
+    $.ajax({
+      type: "GET",
+      url: "http://spartacodingclub.shop/order",
+      data: {},
+      success: function(response){
+        let order = response["orders"];
+        for (let i = 0; i < order.length; i++) {
+          let name = order[i]['name'];
+          let quantity = order[i]['quantity'];
+          let address = order[i]['address'];
+          let phone = order[i]['phone'];
+
+          blank = `<tr class="text_color">
+          <td>${name}</td>
+          <td>${quantity}</td>
+          <td>${address}</td>
+          <td>${phone}</td>
+          </tr>`;
+
+          $('#list-box').append(blank);
+
+        }
+      }
+    })
+
+
+  </script>
+
+
+</head>
+<body>
+  <div class="wrap">
+   <div class="picture">
+   </div>
+   <div class="horizontal">
+     <span class="font1">
+       중고 블랙베리 휴대폰 싸게 팝니다.
+     </span>
+     <span>가격 30000원/개</span>
+   </div>
+   <div class="margin1">안녕하세요 블랙베리 폰 싸게 가져가시오~</div>
+   <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">주문자 이름</span>
+    </div>
+    <input id="orderer" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+  </div>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="inputGroupSelect01">수량</label>
+    </div>
+    <select id="quantity" class="custom-select" id="inputGroupSelect01">
+      <option selected>수량을 선택하세요</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+    </select>
+  </div>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">주소</span>
+    </div>
+    <input id="address" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+  </div>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">전화번호</span>
+    </div>
+    <input id="phone_number" type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1" placeholder="-와 함께 입력해주세요. 예) 010-1234-5678">
+  </div>
+
+  <div class="margin1" align="center">
+    <button onclick="order()" type="button" class="btn btn-primary">주문하기!</button>
+  </div>
+
+
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">이름</th>
+          <th scope="col">수량</th>
+          <th scope="col">주소</th>
+          <th scope="col">전화번호</th>
+        </tr>
+      </thead>
+      <tbody id="list-box">
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>
